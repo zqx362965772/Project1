@@ -1,0 +1,14 @@
+{
+  "name": "HelloWorld",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "react-native start"
+  },
+  "dependencies": {
+    "mockjs": "^1.0.0",
+    "react-native": "^0.17.0",
+    "react-native-button": "^1.3.1",
+    "react-native-webview-android": "^1.0.12"
+  }
+}
