@@ -26,10 +26,11 @@ var DetailView = React.createClass({
         return (
             <View style={{flex:1}}>
                 <ScrollView
-                    style={this.detailViewStyles.contentContainer}
-                    automaticallyAdjustContentInsets={false}
-                    onScroll={() => { console.log('onScroll!'); }}
-                    scrollEventThrottle={200}
+                    contentContainerStyle={Platform.OS==='ios'?this.detailViewStyles.contentContainer:{}}
+                    style={Platform.OS==='ios'?{}:this.detailViewStyles.contentContainer}
+                    //automaticallyAdjustContentInsets={false}
+                    //onScroll={() => { console.log('onScroll!'); }}
+                    //scrollEventThrottle={200}
                     >
                     <View style={this.detailViewStyles.headSection}>
                         <Image
@@ -155,7 +156,7 @@ var DetailView = React.createClass({
         contentContainer: {
             flex: .9,
             padding: 10,
-            height:200
+            //height:200
         },
         headSection: {
             flexDirection: 'row'
