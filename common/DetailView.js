@@ -25,7 +25,12 @@ var DetailView = React.createClass({
         var journey = this.props.dataItem;
         return (
             <View style={{flex:1}}>
-                <ScrollView contentContainerStyle={this.detailViewStyles.contentContainer}>
+                <ScrollView
+                    style={this.detailViewStyles.contentContainer}
+                    automaticallyAdjustContentInsets={false}
+                    onScroll={() => { console.log('onScroll!'); }}
+                    scrollEventThrottle={200}
+                    >
                     <View style={this.detailViewStyles.headSection}>
                         <Image
                             source={{uri:journey.imgPath}}
@@ -34,9 +39,9 @@ var DetailView = React.createClass({
                         <View>
                             <Text style={this.detailViewStyles.castTitle}>{journey.name}</Text>
                             <Text style={this.detailViewStyles.detailInfo}>
-                                {journey.province}
-                                {' '}&bull;{' '}
-                                {journey.city}
+                                {journey.startCity}
+                                {' '}—>{' '}
+                                {journey.endCity}
                             </Text>
                             <View style={{height:20}}></View>
                             <Text style={this.detailViewStyles.otherInfo}>发起人:{journey.creator}</Text>
@@ -55,9 +60,12 @@ var DetailView = React.createClass({
                         <Text style={this.detailViewStyles.blueText}>地图定位：</Text>
                     </View>
                     <WebView
-                        url={"http://10.105.50.177:8000/test1.html"}
+                        style={{height:300}}
+                        url={"http://10.105.50.177:8000/map.html?start="+journey.startCity+'&end='+journey.endCity}
                         javaScriptEnabledAndroid={true}
                         />
+
+                    <View style={{height:50}}></View>
                 </ScrollView>
 
                 <View style={this.detailViewStyles.footer}>
@@ -146,7 +154,8 @@ var DetailView = React.createClass({
         },
         contentContainer: {
             flex: .9,
-            padding: 10
+            padding: 10,
+            height:200
         },
         headSection: {
             flexDirection: 'row'

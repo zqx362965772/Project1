@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        /*body, html,#container {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}*/
+        #container {
+            width: 400px;
+            height: 300px;
+        }
+    </style>
+    <script type="text/javascript"
+            src="http://webapi.amap.com/maps?v=1.3&key=9393a51d576c6b06ab5315d9e1952097"></script>
+</head>
+<body>
+<div id="container"></div>
+<script>
+    window.getQueryString = function(name) {
+        if (location.href.indexOf("?") == -1 || location.href.indexOf(name + '=') == -1) {
+            return '';
+        }
+        var queryString = location.href.substring(location.href.indexOf("?") + 1);
+
+        var parameters = queryString.split("&");
+
+        var pos, paraName, paraValue;
+        for (var i = 0; i < parameters.length; i++) {
+            pos = parameters[i].indexOf('=');
+            if (pos == -1) {
+                continue;
+            }
+
+            paraName = parameters[i].substring(0, pos);
+            paraValue = parameters[i].substring(pos + 1);
+
+            if (paraName == name) {
+                //var value = unescape(paraValue.replace(/\+/g, " "));
+                var value = paraValue.replace(/\+/g, " ");
+                value = value.replace(/#/, "");
+                return value;
+            }
+        }
+        return '';
+    };
+
+    window.onload = function(){
+
+        var startAdrr = decodeURIComponent(window.getQueryString('start'));
+        var destination = decodeURIComponent(window.getQueryString('end'));
+
+        var map = new AMap.Map('container',{
+//            zoom:1
+        });
+        AMap.plugin('AMap.Driving',function(){
+            var drving = new AMap.Driving({
+                map:map
+            });
+            drving.search([
+                {city:startAdrr},
+                {city:destination}
+            ]);
+        });
+
+
+//        var map = new AMap.Map('container');
+//        map.setZoom(5);
+//        AMap.service('AMap.Driving',function(){//回调函数
+//            var driving = new AMap.Driving({
+//                map: map,
+//                panel: "result"
+//            });
+//            driving.search([{city:'北京'},{city:'抚顺'}], function(status, result){
+//                console.log(result);
+//                var startPoint = [result.start.location.B,result.start.location.G];
+//                var endPoint =  [result.end.location.B,result.end.location.G];
+//
+//                var markerStart = new AMap.Marker({
+//                    position: startPoint
+//                });
+//                var markerEnd = new AMap.Marker({
+//                    position: endPoint
+//                });
+//                markerStart.setMap(map);
+//                markerEnd.setMap(map);
+//
+//            });
+//        });
+    }
+
+
+
+
+
+</script>
+</body>
+</html>
