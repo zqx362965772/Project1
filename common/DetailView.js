@@ -1,6 +1,5 @@
 var React = require('react-native');
 var Button = require('react-native-button');
-var WebViewAndroid = require('react-native-webview-android');
 var {
     StyleSheet,
     View,
@@ -24,10 +23,6 @@ var DetailView = React.createClass({
     render: function () {
         console.log(this.props.dataItem);
         var journey = this.props.dataItem;
-        var MyWebView = WebView;
-        if(Platform.OS!=='ios'){
-            MyWebView = WebViewAndroid;
-        }
         return (
             <View style={{flex:1}}>
                 <ScrollView contentContainerStyle={this.detailViewStyles.contentContainer}>
@@ -61,6 +56,7 @@ var DetailView = React.createClass({
                     </View>
                     <WebView
                         url={"http://10.105.50.177:8000/test1.html"}
+                        javaScriptEnabledAndroid={true}
                         />
                 </ScrollView>
 
