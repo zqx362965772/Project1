@@ -10,11 +10,14 @@ var {
     Platform,
     TouchableHighlight,
     TouchableNativeFeedback,
-    Image
+    Image,
+    ScrollView,
+    TabBarIOS
     } = React;
 
+var REQUEST_URL = "http://112.126.77.216/gaodezijiayou/queryTravel.action";
 //var REQUEST_URL = "http://192.168.1.106:8000/journeyList.json";
-var REQUEST_URL = "http://10.105.50.177:8000/journeyList.json";
+//var REQUEST_URL = "http://10.105.50.177:8000/journeyList.json";
 
 
 var MyListView = React.createClass({
@@ -126,7 +129,7 @@ var MyListViewItem = React.createClass({
                             <Text style={this.myListViewItemStyles.time}>{this.props.dataSource.time}
                                 {' '}&bull;{' '}
                                 <Text style={this.myListViewItemStyles.rate}>
-                                    {this.props.dataSource.process}
+                                    {this.props.dataSource.memberNum+"/"+this.props.dataSource.memberMax}
                                 </Text>
                             </Text>
                         </View>

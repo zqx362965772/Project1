@@ -1,5 +1,7 @@
 var React = require('react-native');
 var MyListView = require('./common/MyListView');
+var MyTabBar = require('./common/MyTabBar');
+
 var {
     AppRegistry,
     NavigatorIOS,
@@ -18,9 +20,9 @@ var DriverApp = React.createClass({
             <NavigatorIOS
                 style={styles.container}
                 initialRoute={{
-                  title: '欢乐自驾游',
-                  component: MyListView
-                }}
+                      title: '欢乐自驾游',
+                      component: MyTabBar
+                    }}
                 />
         );
     }

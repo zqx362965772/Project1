@@ -1,6 +1,6 @@
 var React = require('react-native');
 var MyListView = require('./common/MyListView');
-var DetailView = require('./common/DetailView')
+var DetailView = require('./common/DetailView');
 var {
     AppRegistry,
     Navigator,
@@ -13,7 +13,8 @@ var {
     TouchableNativeFeedback,
     Image,
     BackAndroid,
-    ToolbarAndroid
+    ToolbarAndroid,
+    ScrollView
     } = React;
 
 var _navigator;
@@ -29,7 +30,12 @@ var RouteMapper = function (route, navigationOperations, onComponentRef) {
     _navigator = navigationOperations;
     if (route.name === 'search') {
         return (
-            <MyListView navigator={navigationOperations} />
+            <ScrollView>
+                <View style={{height:56,alignItems:'center',justifyContent:'center',backgroundColor: '#38f'}}>
+                    <Text style={{height:30,fontSize:18,color:'#ffffff'}}>欢乐自驾游</Text>
+                </View>
+                <MyListView navigator={navigationOperations} />
+            </ScrollView>
         );
     } else if (route.name === 'journey') {
         return (
@@ -70,7 +76,7 @@ var styles = StyleSheet.create({
         backgroundColor: 'white'
     },
     toolbar: {
-        backgroundColor: '#a9a9a9',
+        backgroundColor: '#38f',
         height: 56
     }
 });
