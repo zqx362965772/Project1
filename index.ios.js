@@ -12,7 +12,8 @@ var {
     Platform,
     TouchableHighlight,
     TouchableNativeFeedback,
-    Image
+    Image,
+    AlertIOS
     } = React;
 var DriverApp = React.createClass({
     render: function () {

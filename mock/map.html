@@ -16,7 +16,7 @@
 <body>
 <div id="container"></div>
 <script>
-    window.getQueryString = function(name) {
+    window.getQueryString = function (name) {
         if (location.href.indexOf("?") == -1 || location.href.indexOf(name + '=') == -1) {
             return '';
         }
@@ -44,22 +44,27 @@
         return '';
     };
 
-    window.onload = function(){
+    window.onload = function () {
 
-        var startAdrr = decodeURIComponent(window.getQueryString('start'));
-        var destination = decodeURIComponent(window.getQueryString('end'));
+        var parameters = decodeURIComponent(window.getQueryString('cities'));
 
-        var map = new AMap.Map('container',{
+        parameters = parameters.split(',');
+        var ctArr = [];
+        for(var i =0;i<parameters.length;i++){
+            var ele = {
+                city:parameters[i]
+            };
+            ctArr.push(ele);
+        }
+
+        var map = new AMap.Map('container', {
 //            zoom:1
         });
-        AMap.plugin('AMap.Driving',function(){
+        AMap.plugin('AMap.Driving', function () {
             var drving = new AMap.Driving({
-                map:map
+                map: map
             });
-            drving.search([
-                {city:startAdrr},
-                {city:destination}
-            ]);
+            drving.search(ctArr);
         });
 
 
@@ -87,9 +92,6 @@
 //            });
 //        });
     }
-
-
-
 
 
 </script>

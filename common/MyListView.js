@@ -51,6 +51,9 @@ var MyListView = React.createClass({
     fetchData: function () {
         fetch(REQUEST_URL)
             .then((response) => response.json())
+            //.then((responseJson)=>(function(){
+            //    console.log(1);
+            //}))
             .then((responseData) => {
                 this.setState({
                     dataSource: this.state.dataSource.cloneWithRows(responseData),
@@ -143,7 +146,7 @@ var MyListViewItem = React.createClass({
             flex: 1,
             fontSize: 16,
             fontWeight: '500',
-            marginBottom: 2
+            marginBottom: 2,
         },
         time: {
             color: '#999999',

@@ -1,5 +1,6 @@
 var React = require('react-native');
 var Button = require('react-native-button');
+var MyButton = require('./MyButton');
 var {
     StyleSheet,
     View,
@@ -12,13 +13,64 @@ var {
     WebView,
     } = React;
 
+var ADD_REQUEST = "http://112.126.77.216/gaodezijiayou/addTravel.action";
 var DetailView = React.createClass({
 
     handleClick: function () {
         alert(1)
     },
-    handleClick1:function(){
+    handleClick1: function () {
         alert(2);
+    },
+    handleAdd: function () {
+        var postData = JSON.parse(JSON.stringify(this.props.dataItem));
+        var url = ADD_REQUEST + "?";
+        postData.username = "AAA";
+        Array.prototype.join.call(postData.cities, ',');
+        console.log(postData);
+        for (var k in postData) {
+            url += "&" + k + "=" + postData[k];
+        }
+        console.log(url);
+        fetch(url, {
+            method: 'GET',
+            header: {}
+            //body:JSON.stringify(postData)
+        }).then((response)=> {
+            console.log(response);
+        }).done();
+    },
+    renderFooter: function () {
+        //从添加页面和列表页面渲染不一样的button
+        if (this.props.dataItem.source === 'add') {
+            return (
+                <MyButton handleClick={this.handleAdd} value="确认提交"></MyButton>
+            )
+        }
+        return (
+            <View style={this.detailViewStyles.footer}>
+                <View style={this.detailViewStyles.footerContainer}>
+                    <View style={this.detailViewStyles.footerLRView}>
+                        <Button onPress={this.handleClick} style={this.detailViewStyles.footerLRButton}>收藏</Button>
+                    </View>
+                    <View style={this.detailViewStyles.footerCenterView}>
+                        <Button onPress={this.handleClick1}
+                                style={this.detailViewStyles.footerCenterButton}>加入同行</Button>
+                    </View>
+                    <View style={this.detailViewStyles.footerLRView}>
+                        <Button onPress={this.handleClick} style={this.detailViewStyles.footerLRButton}>联系他</Button>
+                    </View>
+                </View>
+            </View>
+        )
+    },
+    renderCities: function () {
+        var cityArr = this.props.dataItem.cities.split(',');
+        var str = cityArr[0];
+        for (var i = 1; i < cityArr.length; i++) {
+            str += " -> " + cityArr[i];
+        }
+        return str;
     },
     render: function () {
         console.log(this.props.dataItem);
@@ -28,27 +80,25 @@ var DetailView = React.createClass({
                 <ScrollView
                     contentContainerStyle={Platform.OS==='ios'?this.detailViewStyles.contentContainer:{}}
                     style={Platform.OS==='ios'?{}:this.detailViewStyles.contentContainer}
-                    //automaticallyAdjustContentInsets={false}
-                    //onScroll={() => { console.log('onScroll!'); }}
-                    //scrollEventThrottle={200}
                     >
                     <View style={this.detailViewStyles.headSection}>
                         <Image
                             source={{uri:journey.imgPath}}
                             style={this.detailViewStyles.image}
                             />
-                        <View>
+
+
+
+                        <View style={{flex:1}}>
                             <Text style={this.detailViewStyles.castTitle}>{journey.name}</Text>
                             <Text style={this.detailViewStyles.detailInfo}>
-                                {journey.startCity}
-                                {' '}—>{' '}
-                                {journey.endCity}
+                                {this.renderCities()}
                             </Text>
                             <View style={{height:20}}></View>
                             <Text style={this.detailViewStyles.otherInfo}>发起人:{journey.creator}</Text>
                             <Text style={this.detailViewStyles.otherInfo}>联系电话:{journey.tel}</Text>
                             <Text style={this.detailViewStyles.otherInfo}>出发日期:{journey.time}</Text>
-                            <Text style={this.detailViewStyles.otherInfo}>人数:{journey.process}</Text>
+                            <Text style={this.detailViewStyles.otherInfo}>需求人数:{journey.memberMax}</Text>
                         </View>
                     </View>
                     <View style={this.detailViewStyles.grayLine}></View>
@@ -63,26 +113,14 @@ var DetailView = React.createClass({
                     <WebView
                         style={{height:300}}
                         //url={"http://10.105.50.177:8000/map.html?start="+journey.startCity+'&end='+journey.endCity}
-                        url={"http://192.168.1.106:8000/map.html?start="+journey.startCity+'&end='+journey.endCity}
+                        url={"http://192.168.1.106:8000/map.html?cities="+journey.cities}
                         javaScriptEnabledAndroid={true}
                         />
 
                     <View style={{height:50}}></View>
                 </ScrollView>
 
-                <View style={this.detailViewStyles.footer}>
-                    <View style={this.detailViewStyles.footerContainer}>
-                        <View style={this.detailViewStyles.footerLRView}>
-                            <Button onPress={this.handleClick} style={this.detailViewStyles.footerLRButton}>收藏</Button>
-                        </View>
-                        <View style={this.detailViewStyles.footerCenterView}>
-                            <Button onPress={this.handleClick1} style={this.detailViewStyles.footerCenterButton}>加入同行</Button>
-                        </View>
-                        <View style={this.detailViewStyles.footerLRView}>
-                            <Button onPress={this.handleClick} style={this.detailViewStyles.footerLRButton}>联系他</Button>
-                        </View>
-                    </View>
-                </View>
+                {this.renderFooter()}
             </View>
         );
     },
@@ -93,24 +131,24 @@ var DetailView = React.createClass({
             justifyContent: 'center',
             backgroundColor: '#FFB90F'
         },
-        footerLRButton:{
-            width:90,
-            backgroundColor:'#FFB90F',
+        footerLRButton: {
+            width: 90,
+            backgroundColor: '#FFB90F',
             color: "#ffffff",
             justifyContent: 'center',
-            textAlign:'center'
+            textAlign: 'center'
         },
-        footerCenterView:{
-            flex:1,
-            height:50,
+        footerCenterView: {
+            flex: 1,
+            height: 50,
             justifyContent: 'center',
-            backgroundColor:'#38f'
+            backgroundColor: '#38f'
 
         },
-        footerCenterButton:{
-            textAlign:'center',
+        footerCenterButton: {
+            textAlign: 'center',
             //height:50,
-            backgroundColor:'#38f',
+            backgroundColor: '#38f',
             justifyContent: 'flex-end',
             color: "#ffffff"
             //padding:10
@@ -174,12 +212,14 @@ var DetailView = React.createClass({
             marginBottom: 3,
         },
         detailInfo: {
-            alignSelf: 'flex-start',
-            borderColor: '#000000',
-            borderWidth: .5,
-            paddingHorizontal: 3,
-            marginVertical: 5,
-            color: "#38f"
+            //borderColor: '#000000',
+            //borderWidth: .5,
+            color: "#38f",
+            //flex: 1,
+            //marginBottom: 2,
+            //width:100
+            fontWeight:'900',
+            maxWidth:180
         }
     })
 });

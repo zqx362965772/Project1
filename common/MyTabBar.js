@@ -52,7 +52,7 @@ var MyTabBar = React.createClass({
                         });
                       }}
                     >
-                    <PublishView />
+                    <PublishView navigator = {this.props.navigator}/>
                 </TabBarIOS.Item>
                 <TabBarIOS.Item
                     title="我 的"
