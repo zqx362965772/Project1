@@ -1,6 +1,7 @@
 var React = require('react-native');
 var MyListView = require('./common/MyListView');
 var MyTabBar = require('./common/MyTabBar');
+var LoginView = require('./common/LoginView');
 
 var {
     AppRegistry,
@@ -16,6 +17,7 @@ var {
     AlertIOS
     } = React;
 var DriverApp = React.createClass({
+
     render: function () {
         return (
             <NavigatorIOS

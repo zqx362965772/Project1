@@ -45,27 +45,50 @@
     };
 
     window.onload = function () {
+        try {
+            var parameters = decodeURIComponent(window.getQueryString('cities'));
 
-        var parameters = decodeURIComponent(window.getQueryString('cities'));
-
-        parameters = parameters.split(',');
-        var ctArr = [];
-        for(var i =0;i<parameters.length;i++){
-            var ele = {
-                city:parameters[i]
-            };
-            ctArr.push(ele);
-        }
-
-        var map = new AMap.Map('container', {
+            parameters = parameters.split(',');
+            var ctArr = [];
+            for (var i = 0; i < parameters.length; i++) {
+                var ele = {
+                    city: parameters[i]
+                };
+                ctArr.push(ele);
+            }
+            var map = new AMap.Map('container', {
 //            zoom:1
-        });
-        AMap.plugin('AMap.Driving', function () {
-            var drving = new AMap.Driving({
-                map: map
             });
-            drving.search(ctArr);
-        });
+            //路线
+            AMap.plugin('AMap.Driving', function () {
+                var drving = new AMap.Driving({
+                    map: map
+                });
+                drving.search(ctArr);
+            });
+            //点
+            AMap.service('AMap.Geocoder', function () {
+                var geocoder = new AMap.Geocoder();
+                for (var i = 0; i < ctArr.length; i++) {
+                    var city = ctArr[i].city;
+                    geocoder.getLocation(city, function (status, result) {
+                        if (status === 'complete' && result.info === 'OK') {
+                            console.log(result.geocodes[0].location.B+","+result.geocodes[0].location.G);
+                            marker = new AMap.Marker({
+                                position: [result.geocodes[0].location.B, result.geocodes[0].location.G],
+                                title: city,
+                                map: map
+                            });
+                        } else {
+                            //获取经纬度失败
+                            alert('error');
+                        }
+                    });
+                }
+            });
+        } catch (e) {
+            alert(e.messages);
+        }
 
 
 //        var map = new AMap.Map('container');

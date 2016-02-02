@@ -1,23 +1,35 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-    <style type="text/css">
-        body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
-    </style>
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=GGDTwLZcrEPZcEyZ9UOdjNq7"></script>
-    <title>地图展示</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>设置点标注的文本标签</title>
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+    <script src="http://webapi.amap.com/maps?v=1.3&key=您申请的key值"></script>
+    <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
 </head>
 <body>
-<div id="allmap"></div>
+<div id="container"></div>
+<div id="tip" class="tip">鼠标移入点标记试试</div>
+<script>
+    var map = new AMap.Map('container', {
+        resizeEnable: true,
+        center: [116.397428, 39.90923],
+        zoom: 13
+    });
+    var marker = new AMap.Marker({
+        position: map.getCenter()
+    });
+    marker.setMap(map);
+    // 设置鼠标划过点标记显示的文字提示
+    marker.setTitle('我是marker的title');
+
+    // 设置label标签
+    marker.setLabel({//label默认蓝框白底左上角显示，样式className为：amap-marker-label
+        offset: new AMap.Pixel(20, 20),//修改label相对于maker的位置
+        content: "我是marker的label标签"
+    });
+</script>
 </body>
 </html>
-<script type="text/javascript">
-    // 百度地图API功能
-    var map = new BMap.Map("allmap");    // 创建Map实例
-    map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);  // 初始化地图,设置中心点坐标和地图级别
-    map.addControl(new BMap.MapTypeControl());   //添加地图类型控件
-    map.setCurrentCity("北京");          // 设置地图显示的城市 此项是必须设置的
-    map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
-</script>

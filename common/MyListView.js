@@ -12,13 +12,13 @@ var {
     TouchableNativeFeedback,
     Image,
     ScrollView,
-    TabBarIOS
+    TabBarIOS,
+    Navigator
     } = React;
 
 var REQUEST_URL = "http://112.126.77.216/gaodezijiayou/queryTravel.action";
 //var REQUEST_URL = "http://192.168.1.106:8000/journeyList.json";
 //var REQUEST_URL = "http://10.105.50.177:8000/journeyList.json";
-
 
 var MyListView = React.createClass({
     getInitialState: function () {
@@ -51,9 +51,6 @@ var MyListView = React.createClass({
     fetchData: function () {
         fetch(REQUEST_URL)
             .then((response) => response.json())
-            //.then((responseJson)=>(function(){
-            //    console.log(1);
-            //}))
             .then((responseData) => {
                 this.setState({
                     dataSource: this.state.dataSource.cloneWithRows(responseData),
@@ -89,6 +86,7 @@ var MyListView = React.createClass({
         );
     },
     render: function () {
+        console.log(this.state.dataSource);
         return (
             <ListView
                 dataSource={this.state.dataSource}
@@ -132,7 +130,7 @@ var MyListViewItem = React.createClass({
                             <Text style={this.myListViewItemStyles.time}>{this.props.dataSource.time}
                                 {' '}&bull;{' '}
                                 <Text style={this.myListViewItemStyles.rate}>
-                                    {this.props.dataSource.memberNum+"/"+this.props.dataSource.memberMax}
+                                    {this.props.dataSource.memberNum + "/" + this.props.dataSource.memberMax}
                                 </Text>
                             </Text>
                         </View>

@@ -24,7 +24,10 @@ var PublishView = React.createClass({
                 <View style={this.publishViewStyles.header}>
                     <Image
                         style={this.publishViewStyles.backgroundImage}
-                        source={{uri:'http://192.168.1.106:8000/background1.jpg'}}>
+                        source={{
+                            //uri:'http://192.168.1.106:8000/background1.jpg'
+                            uri:'http://10.105.50.177:8000/background1.jpg'
+                        }}>
                     </Image>
                 </View>
                 <View>

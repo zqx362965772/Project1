@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body, html {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="container" style="width: 100%;height: 100%;margin: 0;"></div>
+
+<script src="http://112.126.77.216:3001/socket.io/socket.io.js"></script>
+
+<script type="text/javascript"
+        src="http://webapi.amap.com/maps?v=1.3&key=9393a51d576c6b06ab5315d9e1952097"></script>
+
+<script>
+    window.onload = function () {
+
+        var selfMaker = null;
+        try {
+            var map = new AMap.Map('container');
+            if (!navigator.geolocation) {
+                alert("获取位置信息失败！");
+                return;
+            }
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+                console.log([longitude,latitude]);
+                var username = window.getQueryString('username');
+                var journeyId = window.getQueryString('journeyId');
+                map.setCenter([longitude, latitude]);
+                selfMaker = drawSelfPoint(latitude, longitude);
+                var realTimer = window.locationShare.init(journeyId, longitude, latitude, username, selfMaker);
+                realTimer.start();
+            });
+        } catch (e) {
+            alert(e.message);
+        }
+
+
+        function drawSelfPoint(latitude, longitude) {
+            selfMaker = new AMap.Marker({
+                icon: icon,
+                position: [longitude, latitude],
+                title: "",
+                map: map
+            });
+            // 设置label标签
+            selfMaker.setLabel({//label默认蓝框白底左上角显示，样式className为：amap-marker-label
+                offset: new AMap.Pixel(20, 20),//修改label相对于maker的位置
+                content: window.getQueryString('username')
+            });
+            return selfMaker;
+        }
+
+        var icon = new AMap.Icon({
+            image: 'http://webapi.amap.com/theme/v1.3/markers/n/mark_r.png',//24px*24px
+            //icon可缺省，缺省时为默认的蓝色水滴图标，
+            size: new AMap.Size(30, 30)
+        });
+
+        window.getQueryString = function (name) {
+            if (location.href.indexOf("?") == -1 || location.href.indexOf(name + '=') == -1) {
+                return '';
+            }
+            var queryString = location.href.substring(location.href.indexOf("?") + 1);
+
+            var parameters = queryString.split("&");
+
+            var pos, paraName, paraValue;
+            for (var i = 0; i < parameters.length; i++) {
+                pos = parameters[i].indexOf('=');
+                if (pos == -1) {
+                    continue;
+                }
+
+                paraName = parameters[i].substring(0, pos);
+                paraValue = parameters[i].substring(pos + 1);
+
+                if (paraName == name) {
+                    //var value = unescape(paraValue.replace(/\+/g, " "));
+                    var value = paraValue.replace(/\+/g, " ");
+                    value = value.replace(/#/, "");
+                    return value;
+                }
+            }
+            return '';
+        };
+
+        (function (w) {
+
+            w.locationShare = {
+                journeyId: 0,
+                longitude: 0,        //经度
+                latitude: 0,         //纬度
+                username: null,        //用户名
+                socket: null,
+                users: [],
+                init: function (journeyId, longitude, latitude, username, selfMaker) {
+                    var self = this;
+                    this.journeyId = journeyId;
+                    this.longitude = longitude;
+                    this.latitude = latitude;
+                    this.username = username;
+                    //将自己加入到users中
+                    this.users.push({
+                        username: username,
+                        maker: selfMaker
+                    });
+                    //建立连接
+                    this.socket = new io.connect('ws://112.126.77.216:3001');
+                    //告诉服务器端有用户登录
+                    this.socket.emit('login', {
+                        journeyId: this.journeyId,
+                        username: this.username,
+                        longitude: this.longitude,
+                        latitude: this.latitude
+                    });
+                    //监听位置信息
+                    this.socket.on('message', function (obj) {
+                        console.log(obj);
+                        var user = self.getUserByUsername(obj.username);
+                        if (user === null) {
+                            var maker = new AMap.Marker({
+                                position: [obj.longitude, obj.latitude],
+                                title: obj.username,
+                                map: map,
+                                label:obj.username
+                            });
+                            // 设置label标签
+                            maker.setLabel({//label默认蓝框白底左上角显示，样式className为：amap-marker-label
+                                offset: new AMap.Pixel(20, 20),//修改label相对于maker的位置
+                                content: obj.username
+                            });
+                            user = {
+                                username: obj.username,
+                                maker: maker
+                            };
+                            self.users.push(user);
+                        } else {
+                            user.maker.setPosition([obj.longitude,obj.latitude]);
+                        }
+                    });
+                    this.socket.on('logout',function(obj){
+                        var user = self.getUserByUsername(obj);
+                        //1.从地图上删除
+                        if(user){
+                            map.remove(user.maker);
+                        }
+                        //2.从数组中删除
+                        for(var i = 0 ;i<self.users.length;i++){
+                            if(self.users[i].username===obj){
+                                self.users.splice(i,1);
+                            }
+                        }
+                    });
+                    return this;
+                },
+                getUserByUsername: function (username) {
+                    for (var i = 0; i < this.users.length; i++) {
+                        if (this.users[i].username === username) {
+                            return this.users[i];
+                        }
+                    }
+                    return null;
+                },
+                start: function () {
+                    var self = this;
+                    setInterval(function () {
+                        //for test
+                        self.longitude += -0.001+Math.random()*0.002;
+                        self.latitude += -0.001+Math.random()*0.002;
+                        var obj = {
+                            journeyId: self.journeyId,
+                            username: self.username,
+                            longitude: self.longitude,
+                            latitude: self.latitude
+                        };
+                        self.socket.emit('message', obj);
+                    }, 1000);
+                }
+            };
+        })(window)
+    };
+
+
+</script>
+</body>
+</html>
