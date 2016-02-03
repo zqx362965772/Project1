@@ -14,10 +14,11 @@ var {
     TouchableHighlight,
     TouchableNativeFeedback,
     Image,
-    AlertIOS
+    AlertIOS,
+    ToolBarIOS
     } = React;
-var DriverApp = React.createClass({
 
+var DriverApp = React.createClass({
     render: function () {
         return (
             <NavigatorIOS

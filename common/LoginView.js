@@ -6,6 +6,7 @@
 
 var React = require('react-native');
 var Button = require('react-native-button');
+var MyButton = require("./MyButton");
 var {
     AppRegistry,
     StyleSheet,
@@ -14,43 +15,19 @@ var {
     TextInput,
     TouchableHighlight,
     TouchableNativeFeedback,
-    AsyncStorage
+    AsyncStorage,
+    Platform,
+    TouchableOpacity
     } = React;
-//AppRegistry = React.AppRegistry
+var USERNAME_KEY = "@UserName:key";
 
-
-var MyButton = React.createClass({
-    render: function () {
-        return (
-            <Button
-                style={this.myButtonStyles.button}
-                onPress={this.props.handleClick}
-                >
-                登 陆
-            </Button>
-        );
-    },
-    myButtonStyles: StyleSheet.create({
-        button: {
-            padding: 5,
-            fontSize: 20,
-            color: '#ffffff',
-            backgroundColor: "#38f",
-            height: 40,
-            marginTop: 20,
-            alignItems: "center",
-            justifyContent: 'center',
-            flexDirection: "row",
-
-        }
-    })
-});
 var MyTextInput = React.createClass({
     render: function () {
         return (
             <View style={this.myTextInputStyles.container}>
                 <Text>{this.props.label}</Text>
-                <TextInput secureTextEntry={this.props.type==="password"} onChangeText={this.props.handleInput} placeholder={this.props.placeholder}
+                <TextInput secureTextEntry={this.props.type==="password"} onChangeText={this.props.handleInput}
+                           placeholder={this.props.placeholder}
                            style={this.myTextInputStyles.input}></TextInput>
             </View>
         )
@@ -77,7 +54,6 @@ var MyTextInput = React.createClass({
         }
     })
 });
-var USERNAME_KEY = "@UserName:key";
 var LoginForm = React.createClass({
     getInitialState: function () {
         return {
@@ -85,35 +61,42 @@ var LoginForm = React.createClass({
             password: ''
         }
     },
-    handleInput: function (name,text) {
+    handleInput: function (name, text) {
         var newState = {};
         newState[name] = text;
         this.setState(newState);
     },
+
     async setLoginStatus(userName) {
         try {
             await AsyncStorage.setItem(USERNAME_KEY, userName);
-            console.log('Saved selection to disk: ' + userName);
         } catch (error) {
-            console.log('AsyncStorage error: ' + error.message);
+            alert('AsyncStorage error: ' + error.message);
         }
     },
-    handleSubmit:function(){
+    handleSubmit: function () {
         //1.提交服务器
         //2.本地存储
         this.setLoginStatus(this.state.userName);
         //3.关闭页面
-
+        this.props.navigator.pop();
     },
     render: function () {
         console.log(this.state);
+        var TouchableElement = TouchableHighlight;
+        if (Platform.OS === 'android') {
+            TouchableElement = TouchableNativeFeedback;
+        }
         return (
             <View style={styles.container}>
                 <MyTextInput style={styles.text} name="userName" type="text" label="账号" placeholder="邮箱地址/电话"
                              handleInput={this.handleInput.bind(this,"userName")}></MyTextInput>
                 <MyTextInput style={styles.text} name="password" type="password" label="密码" placeholder="请填写密码"
                              handleInput={this.handleInput.bind(this,"password")}></MyTextInput>
-                <MyButton handleClick={this.handleSubmit}></MyButton>
+                <MyButton handleClick={this.handleSubmit} value="登 陆"></MyButton>
+                <TouchableOpacity style={[styles.mt30,{justifyContent:'center',alignItems:'center'}]}>
+                    <Text style={{color:'#38f'}}>没有账号？立即注册</Text>
+                </TouchableOpacity>
             </View>
         );
     }
@@ -147,7 +130,11 @@ var styles = StyleSheet.create({
         width: 100,
         height: 100,
         backgroundColor: 'red'
+    },
+
+    mt30: {
+        marginTop: 30
     }
 });
 
-module.exports=LoginForm;
+module.exports = LoginForm;

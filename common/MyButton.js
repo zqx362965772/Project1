@@ -7,7 +7,7 @@ var MyButton = React.createClass({
     render: function () {
         return (
             <Button
-                style={this.myButtonStyles.button}
+                style={[this.myButtonStyles.button,this.props.style]}
                 onPress={this.props.handleClick}
                 >
                 {this.props.value}
