@@ -6,12 +6,8 @@ var {
     View,
     Text,
     Platform,
-    TouchableHighlight,
-    TouchableNativeFeedback,
     Image,
     ScrollView,
-    WebView,
-    TouchableOpacity,
     TextInput,
     DatePickerIOS,
     AlertIOS
@@ -25,8 +21,7 @@ var PublishView = React.createClass({
                     <Image
                         style={this.publishViewStyles.backgroundImage}
                         source={{
-                            //uri:'http://192.168.1.106:8000/background1.jpg'
-                            uri:'http://10.105.50.177:8000/background1.jpg'
+                            uri:'http://112.126.77.216/gaodezijiayou/background1.jpg'
                         }}>
                     </Image>
                 </View>
@@ -187,7 +182,7 @@ var PublishView2 = React.createClass({
                         style={this.publishViewStyles.backgroundImage}
                         source={{
                             //uri:'http://192.168.1.106:8000/background2.jpg'
-                            uri:'http://10.105.50.177:8000/background3.jpg'
+                            uri:'http://112.126.77.216/gaodezijiayou/background3.jpg'
                         }}>
                     </Image>
                 </View>
@@ -291,8 +286,6 @@ var PublishForm2 = React.createClass({
         },
         subContainer: {
             flex: 1,
-            //justifyContent: 'center',
-            //alignItems: 'center',
             padding: 20
         },
         separate: {
@@ -323,11 +316,9 @@ var MyTextInput = React.createClass({
         container: {
             borderBottomWidth: 0.5,
             borderColor: "#CCCCCC",
-            //padding: 7,
             flexDirection: "row",
             alignItems: "center",
             justifyContent: 'center'
-
         },
         text: {
             fontSize: 12

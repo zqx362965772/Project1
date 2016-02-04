@@ -112,10 +112,8 @@ var DetailView = React.createClass({
                     </View>
                     <WebView
                         style={{height:300}}
-                        //url={"http://10.105.50.177:8000/map.html?start="+journey.startCity+'&end='+journey.endCity}
                         url={
-                            //"http://192.168.1.106:8000/map.html?cities="+journey.cities
-                            "http://10.105.50.177:8000/map.html?cities="+journey.cities
+                            "http://112.126.77.216/gaodezijiayou/map.html?cities="+journey.cities
                         }
                         javaScriptEnabledAndroid={true}
                         />

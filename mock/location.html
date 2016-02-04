@@ -176,15 +176,19 @@
                     var self = this;
                     setInterval(function () {
                         //for test
-                        self.longitude += -0.001+Math.random()*0.002;
-                        self.latitude += -0.001+Math.random()*0.002;
-                        var obj = {
-                            journeyId: self.journeyId,
-                            username: self.username,
-                            longitude: self.longitude,
-                            latitude: self.latitude
-                        };
-                        self.socket.emit('message', obj);
+//                        self.longitude += -0.001+Math.random()*0.002;
+//                        self.latitude += -0.001+Math.random()*0.002;
+
+                        navigator.geolocation.getCurrentPosition(function (position) {
+                            var obj = {
+                                journeyId: self.journeyId,
+                                username: self.username,
+                                longitude: position.coords.longitude,
+                                latitude: position.coords.latitude
+                            };
+                            self.socket.emit('message', obj);
+                        });
+
                     }, 1000);
                 }
             };

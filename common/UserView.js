@@ -48,6 +48,7 @@ var UserView = React.createClass({
             this.props.navigator.push({
                 title: "实时定位",
                 component: LocationView,
+                callback:this.navigatorCallback,
                 passProps: data
             });
         } else {
@@ -86,11 +87,11 @@ var UserView = React.createClass({
                                 />
                             <View>
                                 <Text style={self.userViewStyles.userInfoText}>用户名:{userName}</Text>
-                                <Text style={{color:'#38f',fontWeight:"500",fontSize:10}}>☺ 普通会员</Text>
+                                <Text style={{color:'#38f',fontWeight:"500",fontSize:10,marginTop:5}}>普通会员</Text>
                             </View>
                         </View>
                     </TouchableElement>;
-                self.setState({userInfoComponent: component});
+                self.setState({userInfoComponent: component,userName:userName});
             }
         }).done();
     },
@@ -99,9 +100,10 @@ var UserView = React.createClass({
     },
     redirectLogin:function(){
         var navigator = this.props.navigator;
+        var self = this;
         this.props.navigator.push({
             component: LoginView,
-            passProps:{navigator}
+            passProps:{navigator:navigator,callback:self.renderUserInfo}
         });
     },
     componentWillMount: function () {

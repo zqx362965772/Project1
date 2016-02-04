@@ -28,7 +28,8 @@ var MyTextInput = React.createClass({
                 <Text>{this.props.label}</Text>
                 <TextInput secureTextEntry={this.props.type==="password"} onChangeText={this.props.handleInput}
                            placeholder={this.props.placeholder}
-                           style={this.myTextInputStyles.input}></TextInput>
+                           style={this.myTextInputStyles.input}>
+                </TextInput>
             </View>
         )
     },
@@ -79,6 +80,9 @@ var LoginForm = React.createClass({
         //2.本地存储
         this.setLoginStatus(this.state.userName);
         //3.关闭页面
+        if(this.props.callback){
+            this.props.callback();
+        }
         this.props.navigator.pop();
     },
     render: function () {
