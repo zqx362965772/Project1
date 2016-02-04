@@ -4,6 +4,7 @@ var DetailView = require('./common/DetailView');
 var TabBarAndroid = require("./common/TabBarAndroid");
 var PublishView = require("./common/PublishView");
 var UserView = require('./common/UserView');
+var LoginView = require('./common/LoginView');
 var {
     AppRegistry,
     Navigator,
@@ -13,7 +14,6 @@ var {
     BackAndroid,
     ToolbarAndroid,
     ScrollView,
-    Alert
     } = React;
 
 var _navigator;
@@ -48,6 +48,10 @@ var RouteMapper = function (route, navigationOperations, onComponentRef) {
                 />
             </View>
         );
+    }else if(route.name = 'login'){
+        return (
+            <LoginView />
+        )
     }
 };
 var IndexView = React.createClass({
@@ -68,7 +72,7 @@ var IndexView = React.createClass({
     },
     handlePress3:function(){
         this.setState({
-            component:<UserView />
+            component:<UserView navigator={this.props.navigator}/>
         })
     },
     render: function () {

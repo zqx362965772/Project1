@@ -1,6 +1,7 @@
 var React = require('react-native');
 var LocationView = require('./LocationView');
 var LoginView = require('./LoginView');
+var dismissKeyboard = require('dismissKeyboard');
 var {
     StyleSheet,
     View,
@@ -101,10 +102,20 @@ var UserView = React.createClass({
     redirectLogin:function(){
         var navigator = this.props.navigator;
         var self = this;
-        this.props.navigator.push({
-            component: LoginView,
-            passProps:{navigator:navigator,callback:self.renderUserInfo}
-        });
+        if (Platform.OS === 'ios') {
+            this.props.navigator.push({
+                component: LoginView,
+                passProps:{navigator:navigator,callback:self.renderUserInfo}
+            });
+        } else {
+            dismissKeyboard();
+            this.props.navigator.push({
+                title: "用户登录",
+                name: 'login',
+                navigator:navigator,
+                callback:self.renderUserInfo
+            });
+        }
     },
     componentWillMount: function () {
         this.renderUserInfo();

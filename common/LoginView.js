@@ -25,7 +25,7 @@ var MyTextInput = React.createClass({
     render: function () {
         return (
             <View style={this.myTextInputStyles.container}>
-                <Text>{this.props.label}</Text>
+                <Text style={{marginLeft:15}}>{this.props.label}</Text>
                 <TextInput secureTextEntry={this.props.type==="password"} onChangeText={this.props.handleInput}
                            placeholder={this.props.placeholder}
                            style={this.myTextInputStyles.input}>
@@ -37,7 +37,7 @@ var MyTextInput = React.createClass({
         container: {
             borderBottomWidth: 0.5,
             borderColor: "#CCCCCC",
-            padding: 7,
+            //padding: 7,
             flexDirection: "row",
             alignItems: "center",
             justifyContent: 'center'

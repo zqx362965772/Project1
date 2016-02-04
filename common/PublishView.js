@@ -58,10 +58,10 @@ var PublishForm = React.createClass({
             tel: '',
             remark: '',
             showDatePicker: true,
-            imgPath:'http://m2.quanjing.com/2m/rob_pre003/rob-795-69.jpg',
+            imgPath: 'http://m2.quanjing.com/2m/rob_pre003/rob-795-69.jpg',
             //数据库中不用的
             date: new Date(),
-            source:'add'        //传给DetailView标示来源
+            source: 'add'        //传给DetailView标示来源
         }
     },
 
@@ -106,7 +106,7 @@ var PublishForm = React.createClass({
                         mode="date"
                         timeZoneOffsetInMinutes={(-1) * (new Date()).getTimezoneOffset()}
                         onDateChange={this.onDateChange}
-                        />
+                    />
                 </View>
             )
         }
@@ -114,31 +114,31 @@ var PublishForm = React.createClass({
     render: function () {
         return (
             <View style={this.publishFormStyles.container}>
-                <MyTextInput style={this.publishFormStyles.text} name="name" type="text" label="发帖标题"
-                             placeholder="不超过10个字符"
-                             handleInput={this.handleInput.bind(this,"name")}></MyTextInput>
-                <MyTextInput style={this.publishFormStyles.text} name="tel" type="text" label="联系电话"
-                             placeholder="请输入数字"
-                             handleInput={this.handleInput.bind(this,"tel")}></MyTextInput>
-                <MyTextInput style={this.publishFormStyles.text} name="memberMax" type="text" label="需求人数"
-                             placeholder="请输入数字"
-                             handleInput={this.handleInput.bind(this,"memberMax")}></MyTextInput>
-                <MyTextInput style={this.publishFormStyles.text} name="startCity" type="text" label="出发城市"
-                             placeholder="请输入城市名"
-                             handleInput={this.handleInput.bind(this,"startCity")}></MyTextInput>
-                <MyTextInput style={this.publishFormStyles.text} name="remark" type="text" label="详细信息"
-                             placeholder="请输入详细信息"
-                             handleInput={this.handleInput.bind(this,"remark")}></MyTextInput>
-                <MyTextInput style={this.publishFormStyles.text} name="time" type="text" label="出发时间"
-                             placeholder="请输入出发时间"
-                             handleInput={this.handleInput.bind(this,"time")}
-                             handleFocus={this.onDatePickerFocus}
-                             handleBlur={this.onDatePickerBlur}
-                             value={this.state.time}
+                    <MyTextInput style={this.publishFormStyles.text} name="name" type="text" label="发帖标题"
+                                 placeholder="不超过10个字符"
+                                 handleInput={this.handleInput.bind(this,"name")}></MyTextInput>
+                    <MyTextInput style={this.publishFormStyles.text} name="tel" type="text" label="联系电话"
+                                 placeholder="请输入数字"
+                                 handleInput={this.handleInput.bind(this,"tel")}></MyTextInput>
+                    <MyTextInput style={this.publishFormStyles.text} name="memberMax" type="text" label="需求人数"
+                                 placeholder="请输入数字"
+                                 handleInput={this.handleInput.bind(this,"memberMax")}></MyTextInput>
+                    <MyTextInput style={this.publishFormStyles.text} name="startCity" type="text" label="出发城市"
+                                 placeholder="请输入城市名"
+                                 handleInput={this.handleInput.bind(this,"startCity")}></MyTextInput>
+                    <MyTextInput style={this.publishFormStyles.text} name="remark" type="text" label="详细信息"
+                                 placeholder="请输入详细信息"
+                                 handleInput={this.handleInput.bind(this,"remark")}></MyTextInput>
+                    <MyTextInput style={this.publishFormStyles.text} name="time" type="text" label="出发时间"
+                                 placeholder="请输入出发时间"
+                                 handleInput={this.handleInput.bind(this,"time")}
+                                 handleFocus={this.onDatePickerFocus}
+                                 handleBlur={this.onDatePickerBlur}
+                                 value={this.state.time}
                     >
-                </MyTextInput>
-                {this.renderDatePiker()}
-                <MyButton handleClick={this.handleSubmit} value="下 一 步"></MyButton>
+                    </MyTextInput>
+                    {this.renderDatePiker()}
+                    <MyButton handleClick={this.handleSubmit} value="下 一 步"></MyButton>
             </View>
         );
     },
@@ -226,12 +226,12 @@ var PublishForm2 = React.createClass({
     handleAdd: function () {
         AlertIOS.prompt("城市名", null, null, this.promptResponse);
     },
-    handleSubmit:function(){
+    handleSubmit: function () {
         var dataItem = {};
-        for(var p in this.props.basicData){
+        for (var p in this.props.basicData) {
             dataItem[p] = this.props.basicData[p];
         }
-        dataItem["cities"] = Array.prototype.join.call(this.state.cities,',');
+        dataItem["cities"] = Array.prototype.join.call(this.state.cities, ',');
 
         console.log(dataItem);
 
@@ -256,7 +256,7 @@ var PublishForm2 = React.createClass({
         for (var i = 0; i < cities.length; i++) {
             var text =
                     <View style={{flexDirection:'row',marginTop:5}}>
-                        <Text>目标地{i+1}:<Text style={{color:'#38f'}}>{cities[i]}</Text></Text>
+                        <Text>目标地{i + 1}:<Text style={{color:'#38f'}}>{cities[i]}</Text></Text>
                     </View>
                 ;
             rows.push(text);
@@ -298,7 +298,7 @@ var MyTextInput = React.createClass({
     render: function () {
         return (
             <View style={this.myTextInputStyles.container}>
-                <Text>{this.props.label}</Text>
+                <Text style={{marginLeft:20}}>{this.props.label}</Text>
                 <TextInput
                     secureTextEntry={this.props.type==="password"}
                     onChangeText={this.props.handleInput}
@@ -307,7 +307,7 @@ var MyTextInput = React.createClass({
                     onFocus={this.props.handleFocus}
                     onBlur={this.props.handleBlur}
                     value={this.props.value}
-                    >
+                >
                 </TextInput>
             </View>
         )
@@ -318,7 +318,7 @@ var MyTextInput = React.createClass({
             borderColor: "#CCCCCC",
             flexDirection: "row",
             alignItems: "center",
-            justifyContent: 'center'
+            justifyContent: 'center',
         },
         text: {
             fontSize: 12
@@ -329,7 +329,8 @@ var MyTextInput = React.createClass({
             flexDirection: "row",
             width: 250,
             height: 40,
-            fontSize: 14
+            fontSize: 14,
+            borderWidth:0
         }
     })
 });
