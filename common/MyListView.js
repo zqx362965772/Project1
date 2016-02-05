@@ -86,7 +86,7 @@ var MyListView = React.createClass({
         );
     },
     render: function () {
-        console.log(this.state.dataSource);
+        //console.log(this.state.dataSource);
         return (
             <ListView
                 dataSource={this.state.dataSource}

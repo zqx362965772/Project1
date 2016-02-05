@@ -11,8 +11,8 @@ var {
     TouchableNativeFeedback,
     Image,
     ScrollView,
-    WebView,
-    AsyncStorage
+    AsyncStorage,
+    Alert
     } = React;
 
 var myJourneyIcon = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAACi0lEQVRoQ+1ZMWhTQRj+rkmFklp1EMlSU4mlXSQRLZQOxtTduDlWcBGs2MHJQRycK12yiEI3p6Z700akCEFMcNAqRZ+gRQhiikKxTfLLixXfa+5x7457JA8vWy533/99//f/f+COIeQfFnL++D8FLK29yDBqPbHdI9Z37crFyZKKkzpwlBxYKq5bjOHkPmkrl50aURKgAUdJQGF1nZyEc9mpruF4Bt7JpBKNyKF5RkiBIeEkvHJ33pXwSw/mVAyAEIdgEUM12tydGyhVLV4QroA2+b7+CmPs6MFDjUYTpXsLruXM/VuIRiNSImRwiKgebe2leSK4An5MTxQYcJnH6M3nb9jKL7p+Gr45g9H4MSkBsjgELB8ulnMHg/AFZM9/52XfPvz83RZ+LT514cRmrmLydFxKgDQOwRpcLXcMC66An9MTriZ1MmsHzj8GYrE/y7UaYndm1QRI4gwWyx18pQXY1teGk9i7fqPNv/9RHvEvH5RKSBZHiwC7+d5/rWN7ZxeNFuHE0ABOHR9SamJZHC0CpApd82YjQHNCpeF8O1DZ2PScQtJRNR5IjyX9TSEjQGPWnVDGgb/ZePbytSvHF86daX/Xte5loDYHdBH1wjECRFMo9A4ENGSEsNp6QBgpoA3aBIS+hIwAwf+GGaOiMRpQjwphtTWxMFJAG7QJME1smvhfjXLvhURNHPoSCqhHhbDamlgYKaANvgW82tisM+BIQDyUYInw6ex40vVOYQN59UABHtfrStH1HFpOjyX9Xa9X3n5MEGtWe8UFArYZRVLp8ZGOVxrPJyZbBFjzIRFSjgc9Pbn0iWKXDWOogiK3eeQ9S8gnfk9sU3pd7Anm+ySMgG67YRzotgO/AZIZzkCtt5PGAAAAAElFTkSuQmCC";
@@ -97,7 +97,7 @@ var UserView = React.createClass({
         }).done();
     },
     redirectUserInfo:function(){
-        alert("跳转到user页面");
+        Alert.alert("跳转到user页面");
     },
     redirectLogin:function(){
         var navigator = this.props.navigator;

@@ -5,6 +5,7 @@ var TabBarAndroid = require("./common/TabBarAndroid");
 var PublishView = require("./common/PublishView");
 var UserView = require('./common/UserView');
 var LoginView = require('./common/LoginView');
+var LocationView = require('./common/LocationView');
 var {
     AppRegistry,
     Navigator,
@@ -48,9 +49,13 @@ var RouteMapper = function (route, navigationOperations, onComponentRef) {
                 />
             </View>
         );
-    }else if(route.name = 'login'){
+    }else if(route.name === 'login'){
         return (
-            <LoginView />
+            <LoginView navigator={navigationOperations} callback={route.callback} />
+        )
+    }else if(route.name==='locationShare'){
+        return (
+            <LocationView  username="taylor" journeyId="1"/>
         )
     }
 };
