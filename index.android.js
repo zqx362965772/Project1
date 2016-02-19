@@ -3,6 +3,7 @@ var MyListView = require('./common/MyListView');
 var DetailView = require('./common/DetailView');
 var TabBarAndroid = require("./common/TabBarAndroid");
 var PublishView = require("./common/PublishView");
+var PublishView2 = require("./common/PublishView2");
 var UserView = require('./common/UserView');
 var LoginView = require('./common/LoginView');
 var LocationView = require('./common/LocationView');
@@ -57,6 +58,10 @@ var RouteMapper = function (route, navigationOperations, onComponentRef) {
         return (
             <LocationView  username="taylor" journeyId="1"/>
         )
+    }else if(route.name === 'publish'){
+        return(
+            <PublishView2  navigator={navigationOperations} publishData={route.publishData} />
+        )
     }
 };
 var IndexView = React.createClass({
@@ -72,7 +77,7 @@ var IndexView = React.createClass({
     },
     handlePress2:function(){
         this.setState({
-            component:<PublishView />
+            component:<PublishView navigator={this.props.navigator} />
         })
     },
     handlePress3:function(){
