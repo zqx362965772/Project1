@@ -35,6 +35,7 @@
                 return;
             }
             navigator.geolocation.getCurrentPosition(function (position) {
+                console.log(position)
                 var latitude = position.coords.latitude;
                 var longitude = position.coords.longitude;
                 var username = window.getQueryString('username');

@@ -14,7 +14,7 @@ var LocationView = React.createClass({
             <View style={this.userViewStyles.container}>
                 <WebView
                     style={{height:1000}}
-                    url={"http://112.126.77.216/gaodezijiayou/location.html?username=qingxin.zheng&journeyId=1"}
+                    url={"http://112.126.77.216/ZQX_DO_NOT_TOUCH/location.html?username=qingxin.zheng&journeyId=1"}
                     javaScriptEnabledAndroid={true}
                     />
             </View>
